@@ -67,7 +67,7 @@ export default function EditListingModal({ listing, onSave, onClose }) {
         {/* Header section */}
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-lg font-medium">Edit Listing</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onClose} className="text-gray-400 cursor-pointer hover:text-gray-600">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -172,7 +172,7 @@ export default function EditListingModal({ listing, onSave, onClose }) {
                   <button
                     type="button"
                     onClick={() => removeFeature(index)}
-                    className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    className="px-3 py-2 bg-red-600 text-white rounded cursor-pointer hover:bg-red-700"
                   >
                     Remove
                   </button>
@@ -181,7 +181,7 @@ export default function EditListingModal({ listing, onSave, onClose }) {
               <button
                 type="button"
                 onClick={addFeature}
-                className="px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                className="px-3 py-2 bg-gray-600 text-white rounded cursor-pointer hover:bg-gray-700"
               >
                 Add Feature
               </button>
@@ -193,7 +193,7 @@ export default function EditListingModal({ listing, onSave, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
+              className="px-4 py-2 border border-gray-300 rounded cursor-pointer hover:bg-gray-50"
               disabled={saving}
             >
               Cancel
@@ -201,7 +201,7 @@ export default function EditListingModal({ listing, onSave, onClose }) {
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+              className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700 disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save"}
             </button>

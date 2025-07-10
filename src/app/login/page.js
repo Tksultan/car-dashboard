@@ -89,7 +89,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50"
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 cursor-pointer disabled:opacity-50"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
@@ -108,7 +108,7 @@ export default function LoginPage() {
                 </div>
                 <button
                   onClick={() => fillCredentials(cred.email, cred.password)}
-                  className="text-blue-600 text-sm hover:text-blue-800"
+                  className="text-blue-600 text-sm cursor-pointer hover:text-blue-800"
                 >
                   Use
                 </button>

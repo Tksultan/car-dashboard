@@ -86,14 +86,14 @@ export default function AuditTrail() {
               <button
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1 border rounded text-sm hover:bg-gray-50 disabled:opacity-50"
+                className="px-3 py-1 border rounded text-sm cursor-pointer hover:bg-gray-50 disabled:opacity-50"
               >
                 Previous
               </button>
               <button
                 onClick={() => setCurrentPage(currentPage + 1)}
                 disabled={currentPage === pagination.totalPages}
-                className="px-3 py-1 border rounded text-sm hover:bg-gray-50 disabled:opacity-50"
+                className="px-3 py-1 border rounded text-sm hover:bg-gray-50 cursor-pointer disabled:opacity-50"
               >
                 Next
               </button>

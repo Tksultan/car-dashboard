@@ -146,11 +146,11 @@ export default function DashboardPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => setShowAuditTrail(!showAuditTrail)}
-                className="px-3 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                className="p-2 bg-gray-600 text-white rounded cursor-pointer hover:bg-gray-700"
               >
                 {showAuditTrail ? "Hide Audit" : "Show Audit"}
               </button>
-              <button onClick={handleLogout} className="px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+              <button onClick={handleLogout} className="px-3 py-2 bg-red-600 cursor-pointer text-white rounded hover:bg-red-700">
                 Logout
               </button>
             </div>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
                     />
                     <button
                       onClick={() => setCurrentPage(1)}
-                      className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                      className="px-4 py-2 bg-blue-600 text-white rounded cursor-pointer hover:bg-blue-700"
                     >
                       Search
                     </button>

@@ -73,13 +73,13 @@ const ListingRow = memo(function ListingRow({ listing, onStatusChange, onEdit })
             <>
               <button
                 onClick={() => onStatusChange(listing.id, "approved")}
-                className="px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700"
+                className="px-2 py-1 bg-green-600 text-white text-xs rounded cursor-pointer hover:bg-green-700"
               >
                 Approve
               </button>
               <button
                 onClick={() => onStatusChange(listing.id, "rejected")}
-                className="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700"
+                className="px-2 py-1 bg-red-600 text-white text-xs rounded cursor-pointer hover:bg-red-700"
               >
                 Reject
               </button>
@@ -87,7 +87,7 @@ const ListingRow = memo(function ListingRow({ listing, onStatusChange, onEdit })
           )}
           <button
             onClick={() => onEdit(listing)}
-            className="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+            className="px-2 py-1 bg-blue-600 text-white text-xs rounded cursor-pointer hover:bg-blue-700"
           >
             Edit
           </button>
@@ -169,14 +169,14 @@ export default function ListingTable({
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className="px-3 py-1 border rounded text-sm hover:bg-gray-50 disabled:opacity-50"
+              className="px-3 py-1 border rounded text-sm hover:bg-gray-50 cursor-pointer disabled:opacity-50"
             >
               Previous
             </button>
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === pagination.totalPages}
-              className="px-3 py-1 border rounded text-sm hover:bg-gray-50 disabled:opacity-50"
+              className="px-3 py-1 border rounded text-sm hover:bg-gray-50 cursor-pointer disabled:opacity-50"
             >
               Next
             </button>
