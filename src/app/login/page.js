@@ -40,6 +40,7 @@ export default function LoginPage() {
   }
 
   const demoCredentials = [
+    { email: "thakheerkhansultan@gmail.com", password: "tksultan@123", role: "Developer" },
     { email: "admin@carrentals.com", password: "admin123", role: "Admin" },
     { email: "manager@carrentals.com", password: "manager123", role: "Manager" },
   ]
