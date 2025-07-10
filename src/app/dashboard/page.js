@@ -1,14 +1,14 @@
 "use client"
 import { useState, useEffect, useCallback } from "react"
 import { useRouter } from "next/navigation"
-import { useAuth} from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext"
 import { useNotification } from "../context/NotificationContext"
 import ListingTable from "../components/ListingTable"
 import EditListingModal from "../components/EditListingModal"
 import AuditTrail from "../components/AuditTrail"
 
 export default function DashboardPage() {
-  const { user, loading , logout} = useAuth()
+  const { user, loading, logout } = useAuth()
   const { addNotification } = useNotification()
   const router = useRouter()
 
@@ -20,11 +20,11 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [editingListing, setEditingListing] = useState(null)
   const [showAuditTrail, setShowAuditTrail] = useState(false)
+  const [stats, setStats] = useState({ pending: 0, approved: 0, rejected: 0 }) // 🆕
 
   useEffect(() => {
     if (!loading && !user) {
       router.push("/login")
-    
     }
   }, [user, loading, router])
 
@@ -43,6 +43,7 @@ export default function DashboardPage() {
 
       setListings(data.listings)
       setPagination(data.pagination)
+      setStats(data.stats || { pending: 0, approved: 0, rejected: 0 }) // ✅ Use stats from backend
     } catch (error) {
       addNotification("Failed to fetch listings", "error")
     } finally {
@@ -113,10 +114,9 @@ export default function DashboardPage() {
   }
 
   const handleLogout = () => {
-    logout(); 
-    router.push("/login");
-  };
-  
+    logout()
+    router.push("/login")
+  }
 
   if (loading) {
     return (
@@ -129,13 +129,10 @@ export default function DashboardPage() {
     )
   }
 
-  if (!user) {
-    return null
-  }
+  if (!user) return null
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header  section */}
       <header className="bg-white shadow border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
@@ -150,7 +147,10 @@ export default function DashboardPage() {
               >
                 {showAuditTrail ? "Hide Audit" : "Show Audit"}
               </button>
-              <button onClick={handleLogout} className="px-3 py-2 bg-red-600 cursor-pointer text-white rounded hover:bg-red-700">
+              <button
+                onClick={handleLogout}
+                className="px-3 py-2 bg-red-600 cursor-pointer text-white rounded hover:bg-red-700"
+              >
                 Logout
               </button>
             </div>
@@ -163,29 +163,23 @@ export default function DashboardPage() {
           <AuditTrail />
         ) : (
           <div className="space-y-6">
-            {/* Stats calculation showing */}
+            {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-white p-4 rounded-lg shadow border">
-                <div className="text-2xl font-bold text-yellow-600">
-                  {listings.filter((l) => l.status === "pending").length}
-                </div>
+                <div className="text-2xl font-bold text-yellow-600">{stats.pending}</div>
                 <div className="text-sm text-gray-600">Pending</div>
               </div>
               <div className="bg-white p-4 rounded-lg shadow border">
-                <div className="text-2xl font-bold text-green-600">
-                  {listings.filter((l) => l.status === "approved").length}
-                </div>
+                <div className="text-2xl font-bold text-green-600">{stats.approved}</div>
                 <div className="text-sm text-gray-600">Approved</div>
               </div>
               <div className="bg-white p-4 rounded-lg shadow border">
-                <div className="text-2xl font-bold text-red-600">
-                  {listings.filter((l) => l.status === "rejected").length}
-                </div>
+                <div className="text-2xl font-bold text-red-600">{stats.rejected}</div>
                 <div className="text-sm text-gray-600">Rejected</div>
               </div>
             </div>
 
-            {/* Filters options */}
+            {/* Filters */}
             <div className="bg-white p-4 rounded-lg shadow border">
               <div className="flex flex-col md:flex-row gap-4">
                 <div>
@@ -225,7 +219,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Showing Listings Table */}
+            {/* Listings */}
             <ListingTable
               listings={listings}
               loading={loadingListings}
@@ -239,9 +233,13 @@ export default function DashboardPage() {
         )}
       </main>
 
-      {/* Edit popup */}
+      {/* Edit Modal */}
       {editingListing && (
-        <EditListingModal listing={editingListing} onSave={handleSaveEdit} onClose={() => setEditingListing(null)} />
+        <EditListingModal
+          listing={editingListing}
+          onSave={handleSaveEdit}
+          onClose={() => setEditingListing(null)}
+        />
       )}
     </div>
   )

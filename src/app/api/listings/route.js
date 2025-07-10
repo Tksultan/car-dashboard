@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server"
-import { listings as initialListings, auditLog as initialAuditLog } from "@/app/data/listingsData"
+import {
+  listings as initialListings,
+  auditLog as initialAuditLog,
+} from "@/app/data/listingsData"
 
 global.listings = global.listings || [...initialListings]
 global.auditLog = global.auditLog || [...initialAuditLog]
@@ -14,21 +17,41 @@ export async function GET(request) {
   let filteredListings = [...global.listings]
 
   if (status && status !== "all") {
-    filteredListings = filteredListings.filter((listing) => listing.status === status)
+    filteredListings = filteredListings.filter(
+      (listing) => listing.status === status
+    )
   }
 
   if (search) {
-    filteredListings = filteredListings.filter(
-      (listing) =>
-        listing.title.toLowerCase().includes(search.toLowerCase()) ||
-        listing.description.toLowerCase().includes(search.toLowerCase()) ||
-        listing.location.toLowerCase().includes(search.toLowerCase()),
+    filteredListings = filteredListings.filter((listing) =>
+      [listing.title, listing.description, listing.location]
+        .join(" ")
+        .toLowerCase()
+        .includes(search.toLowerCase())
     )
   }
+
 
   const startIndex = (page - 1) * limit
   const endIndex = startIndex + limit
   const paginatedListings = filteredListings.slice(startIndex, endIndex)
+
+
+  let statSource = [...global.listings]
+  if (search) {
+    statSource = statSource.filter((listing) =>
+      [listing.title, listing.description, listing.location]
+        .join(" ")
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    )
+  }
+
+  const stats = {
+    pending: statSource.filter((l) => l.status === "pending").length,
+    approved: statSource.filter((l) => l.status === "approved").length,
+    rejected: statSource.filter((l) => l.status === "rejected").length,
+  }
 
   return NextResponse.json({
     listings: paginatedListings,
@@ -38,13 +61,17 @@ export async function GET(request) {
       totalItems: filteredListings.length,
       itemsPerPage: limit,
     },
+    stats,
   })
 }
 
 export async function POST(request) {
   try {
     const newListing = await request.json()
-    const id = Math.max(...global.listings.map((l) => l.id)) + 1
+    const id =
+      global.listings.length > 0
+        ? Math.max(...global.listings.map((l) => l.id)) + 1
+        : 1
 
     const listing = {
       id,
@@ -57,6 +84,10 @@ export async function POST(request) {
 
     return NextResponse.json(listing, { status: 201 })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to create listing" }, { status: 500 })
+    console.error("Error in POST /api/listings:", error)
+    return NextResponse.json(
+      { error: "Failed to create listing" },
+      { status: 500 }
+    )
   }
 }
